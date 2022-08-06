@@ -1,25 +1,46 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import NavBar from './Components/NavBar/NavBar'
+import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
+import Rank from './Components/Rank/Rank'
+import Clarifai from 'clarifai'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const app = new Clarifai.App({
+  apiKey: "74a474bbe474416fbe7881fa52630cab"
+})
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      input: '',
+    }
+  }
+
+  onInputChange = (event) => {
+    console.log(event.target.value);
+  }
+
+  onSubmit = () => {
+    app.models.predict("74a474bbe474416fbe7881fa52630cab", "https://samples.clarifai.com/face-det.jpg").then(
+      function (response) {
+        
+      },
+      function (err) {
+        
+      }
+    )
+  }
+
+  render() {
+    return (
+      <div className='App'>
+        <NavBar />
+        <Rank />
+        <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
+      </div>
+    )
+  }
 }
 
 export default App;
