@@ -4,8 +4,8 @@ import logo from './logo.png';
 
 const NavBar = () => {
     return (
-        <div className='bg-black' style={{ height: '6em'}}>
-            <img src={logo} alt='logo' className='fl h-75 w-auto pointer pa3'/>
+        <div className='bg-black' style={{ height: '6em', top: '0px', position: 'fixed', width: '100%'}}>
+            <img src={logo} alt='logo' className='fl w-auto pointer pa3 image'/>
             <Navigation />
         </div>
     )

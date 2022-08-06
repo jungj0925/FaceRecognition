@@ -3,7 +3,7 @@ import React from 'react';
 const Rank = () => {
     return (
         <div>
-            <div className='white f3 '>
+            <div className='white f4 pt6'>
                 {'⠀'}
             </div>
             <div className='black f1'>
