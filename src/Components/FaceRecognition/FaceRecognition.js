@@ -3,7 +3,7 @@ import './FaceRecognition.css'
 
 const FaceRecognition = ({ url, boxes }) => {
     return (
-        <div className='center pb4 ma'>
+        <div className='center pb4 mb5'>
             <div className='absolute'>
                 <img id='inputimage' src={ url } alt='' width='500px' height='auto'/>
                 {
