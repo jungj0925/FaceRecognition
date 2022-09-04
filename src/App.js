@@ -6,11 +6,22 @@ import Register from './Components/Register/Register'
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
 import Rank from './Components/Rank/Rank'
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition'
-import Clarifai from 'clarifai'
 
-const app = new Clarifai.App({
-  apiKey: "74a474bbe474416fbe7881fa52630cab"
-})
+
+const initialState = {
+    input: '',
+    imageUrl: '',
+    box: [],
+    route: 'Signin',
+    isSignedIn: false,
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: ''
+    }
+}
 
 class App extends Component {
   constructor() {
@@ -67,10 +78,17 @@ class App extends Component {
 
   onSubmit = () => {
     this.setState({imageUrl: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('https://mysterious-depths-68668.herokuapp.com/imageurl',{
+      method: 'post',
+      headers: { 'Content-Type' : 'application/json'},
+      body: JSON.stringify({ 
+          input: this.state.input
+      })
+    })
+    .then(res => res.json())
     .then (res => {
       if (res) {
-        fetch('http://localhost:3000/image',{
+        fetch('https://mysterious-depths-68668.herokuapp.com/image',{
           method: 'put',
           headers: { 'Content-Type' : 'application/json'},
           body: JSON.stringify({ 
@@ -81,6 +99,7 @@ class App extends Component {
         .then(data => {
           this.setState(Object.assign(this.state.user, { entries: data.entries }))
         })
+        .catch(console.log)
       }
       this.displayFaceBox(this.calculateFaceLocation(res))
     })
@@ -89,7 +108,7 @@ class App extends Component {
 
   onRouteChange = (prop) => {
     if (prop === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if (prop === 'home') {
       this.setState({isSignedIn: true})
     }
